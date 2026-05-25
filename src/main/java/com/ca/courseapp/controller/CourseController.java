@@ -1,6 +1,7 @@
 package com.ca.courseapp.controller;
 
 
+import com.ca.courseapp.dto.CourseSummaryDto;
 import com.ca.courseapp.entities.Course;
 import com.ca.courseapp.service.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +24,7 @@ public class CourseController {
         return  courseService.addCourse(course);
     }
     @GetMapping("/all")
-    public List<Course> getAllCourses(){
+    public List<CourseSummaryDto> getAllCourses(){
         return courseService.getAllCourses();
     }
     @GetMapping("/getCourse/{id}")

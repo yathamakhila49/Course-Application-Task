@@ -1,6 +1,7 @@
 package com.ca.courseapp.service;
 
 
+import com.ca.courseapp.dto.CourseSummaryDto;
 import com.ca.courseapp.entities.Course;
 import com.ca.courseapp.repository.CourseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,8 +24,15 @@ public class CourseServiceImpl implements CourseService {
 
     }
     @Override
-    public List<Course> getAllCourses(){
-        return courseRepository.findAll();
+    public List<CourseSummaryDto> getAllCourses(){
+        return courseRepository.findAll().stream().map(course -> new CourseSummaryDto(
+                course.getId(),
+                course.getTitle(),
+                course.getDescription(),
+                course.getPrice(),
+                course.getLevel(),
+                course.getInstructorName(), course.getDuration(), course.getRating()
+        )).toList();
     }
     @Override
     public Optional<Course> getCourse(Long id){
