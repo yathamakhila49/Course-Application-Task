@@ -28,7 +28,7 @@ public class CourseController {
         return courseService.getAllCourses();
     }
     @GetMapping("/getCourse/{id}")
-    public ResponseEntity<Course> getCouse(@PathVariable Long id){
+    public ResponseEntity<Course> getCourse(@PathVariable Long id){
         return courseService.getCourse(id).map(ResponseEntity::ok).orElseGet(()->ResponseEntity.notFound().build());
     }
    @PutMapping("/update/{id}")
