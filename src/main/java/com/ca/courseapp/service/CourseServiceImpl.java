@@ -4,6 +4,9 @@ package com.ca.courseapp.service;
 import com.ca.courseapp.dto.CoursesDto;
 import com.ca.courseapp.entities.Course;
 import com.ca.courseapp.repository.CourseRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,8 +25,10 @@ public class CourseServiceImpl implements CourseService {
         return courseRepository.save(course);
     }
     @Override
-    public List<CoursesDto> getAllCourses(){
-        return courseRepository.findAll().stream().map(course -> new CoursesDto(
+    public Page<CoursesDto> getAllCourses(int page,int size){
+       Pageable pageable = PageRequest.of(page,size);
+       Page <Course> coursePage=courseRepository.findAll(pageable);
+        return coursePage.map(course -> new CoursesDto(
                 course.getCourseId(),
                 course.getCourseName(),
                 course.getDescription(),
@@ -32,7 +37,7 @@ public class CourseServiceImpl implements CourseService {
                 course.getInstructorName(),
                 course.getDuration(),
                 course.getRating()
-        )).toList();
+        ));
     }
     @Override
     public Optional<Course> getCourse(Long id){
@@ -57,6 +62,5 @@ public class CourseServiceImpl implements CourseService {
         courseRepository.delete(existingCourse);
 
     }
-
 
 }

@@ -4,6 +4,7 @@ package com.ca.courseapp.controller;
 import com.ca.courseapp.dto.StudentsDto;
 import com.ca.courseapp.entities.Student;
 import com.ca.courseapp.service.StudentService;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,8 +24,8 @@ public class StudentController {
         return studentService.addStudent(student);
     }
     @GetMapping("/all")
-    public List<StudentsDto> getAllStudents(){
-        return studentService.getAllStudents();
+    public ResponseEntity<Page<StudentsDto>> getAllStudents(@RequestParam(defaultValue = "0") int page,@RequestParam(defaultValue = "5")int size){
+        return ResponseEntity.ok(studentService.getAllStudents(page,size));
     }
     @GetMapping("/getstudent/{id}")
     public ResponseEntity<Student> getStudentById(@PathVariable Long id){

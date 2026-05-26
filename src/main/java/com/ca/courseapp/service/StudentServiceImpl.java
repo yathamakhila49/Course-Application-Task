@@ -6,6 +6,9 @@ import com.ca.courseapp.entities.Course;
 import com.ca.courseapp.entities.Student;
 import com.ca.courseapp.repository.CourseRepository;
 import com.ca.courseapp.repository.StudentRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -30,8 +33,11 @@ public class StudentServiceImpl implements StudentService{
 
     }
     @Override
-    public List<StudentsDto> getAllStudents(){
-        return studentRepository.findAll().stream().map(student -> new StudentsDto(
+    public Page<StudentsDto> getAllStudents(int page, int size){
+        Pageable pageable= PageRequest.of(page,size);
+       Page<Student> studentPage=studentRepository.findAll(pageable);
+
+        return studentPage.map(student -> new StudentsDto(
                 student.getStudentId(),
                 student.getStudentName(),
                 student.getStudentEmail(),
@@ -40,7 +46,7 @@ public class StudentServiceImpl implements StudentService{
                         .stream()
                         .map(Course::getCourseName)
                         .toList()
-        )).toList();
+        ));
     }
     @Override
     public Optional<Student> getStudent(Long id){

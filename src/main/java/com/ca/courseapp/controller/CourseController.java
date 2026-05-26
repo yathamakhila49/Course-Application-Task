@@ -4,6 +4,7 @@ package com.ca.courseapp.controller;
 import com.ca.courseapp.dto.CoursesDto;
 import com.ca.courseapp.entities.Course;
 import com.ca.courseapp.service.CourseService;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,8 +23,9 @@ public class CourseController {
         return  courseService.addCourse(course);
     }
     @GetMapping("/all")
-    public List<CoursesDto> getAllCourses(){
-        return courseService.getAllCourses();
+    public ResponseEntity<Page<CoursesDto>> getAllCourses(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "5") int size){
+
+        return ResponseEntity.ok(courseService.getAllCourses(page,size));
     }
 
 
