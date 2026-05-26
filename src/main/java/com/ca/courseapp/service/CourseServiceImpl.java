@@ -1,10 +1,9 @@
 package com.ca.courseapp.service;
 
 
-import com.ca.courseapp.dto.CourseSummaryDto;
+import com.ca.courseapp.dto.GetCourseDto;
 import com.ca.courseapp.entities.Course;
 import com.ca.courseapp.repository.CourseRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,17 +20,18 @@ public class CourseServiceImpl implements CourseService {
     @Override
    public Course addCourse(Course course){
         return courseRepository.save(course);
-
     }
     @Override
-    public List<CourseSummaryDto> getAllCourses(){
-        return courseRepository.findAll().stream().map(course -> new CourseSummaryDto(
+    public List<GetCourseDto> getAllCourses(){
+        return courseRepository.findAll().stream().map(course -> new GetCourseDto(
                 course.getId(),
                 course.getTitle(),
                 course.getDescription(),
                 course.getPrice(),
                 course.getLevel(),
-                course.getInstructorName(), course.getDuration(), course.getRating()
+                course.getInstructorName(),
+                course.getDuration(),
+                course.getRating()
         )).toList();
     }
     @Override
@@ -43,8 +43,11 @@ public class CourseServiceImpl implements CourseService {
         Course existingCourse=courseRepository.findById(id)
                 .orElseThrow(()->new RuntimeException("course not found"));
         existingCourse.setTitle(course.getTitle());
-        existingCourse.setDescription(course.getDescription());
         existingCourse.setPrice(course.getPrice());
+        existingCourse.setDescription(course.getDescription());
+        existingCourse.setInstructorName(course.getInstructorName());
+        existingCourse.setDuration(course.getDuration());
+        existingCourse.setRating(course.getRating());
         return courseRepository.save(existingCourse);
 
     }

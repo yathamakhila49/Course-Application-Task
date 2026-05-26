@@ -1,15 +1,13 @@
 package com.ca.courseapp.controller;
 
 
-import com.ca.courseapp.dto.CourseSummaryDto;
+import com.ca.courseapp.dto.GetCourseDto;
 import com.ca.courseapp.entities.Course;
 import com.ca.courseapp.service.CourseService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/courses")
@@ -24,7 +22,7 @@ public class CourseController {
         return  courseService.addCourse(course);
     }
     @GetMapping("/all")
-    public List<CourseSummaryDto> getAllCourses(){
+    public List<GetCourseDto> getAllCourses(){
         return courseService.getAllCourses();
     }
     @GetMapping("/getCourse/{id}")
