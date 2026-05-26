@@ -1,29 +1,35 @@
 package com.ca.courseapp.entities;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
+
+import java.util.List;
 
 @Entity
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name="courses")
 public class Course {
     @Id
     @Column(name = "course_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long courseId;
 
     @Column(name = "course_title")
-    private String title;
+    private String courseName;
 
     @Column(name = "course_desc")
-    private String description;
+    private String Description;
 
     @Column(name = "course_instructor")
     private String instructorName;
 
     @Column(name = "course_price")
-    private Double price;
+    private Double Price;
 
     @Column(name = "course_category")
     private String category;
@@ -43,5 +49,10 @@ public class Course {
 
     @Column(name = "total_students")
     private Integer totalStudents;
+
+
+    @ManyToMany(mappedBy = "courses")
+    @JsonIgnore
+    private List<Student> students;
 
 }

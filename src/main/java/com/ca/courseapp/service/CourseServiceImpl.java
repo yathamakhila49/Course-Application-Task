@@ -1,7 +1,7 @@
 package com.ca.courseapp.service;
 
 
-import com.ca.courseapp.dto.GetCourseDto;
+import com.ca.courseapp.dto.CoursesDto;
 import com.ca.courseapp.entities.Course;
 import com.ca.courseapp.repository.CourseRepository;
 import org.springframework.stereotype.Service;
@@ -22,10 +22,10 @@ public class CourseServiceImpl implements CourseService {
         return courseRepository.save(course);
     }
     @Override
-    public List<GetCourseDto> getAllCourses(){
-        return courseRepository.findAll().stream().map(course -> new GetCourseDto(
-                course.getId(),
-                course.getTitle(),
+    public List<CoursesDto> getAllCourses(){
+        return courseRepository.findAll().stream().map(course -> new CoursesDto(
+                course.getCourseId(),
+                course.getCourseName(),
                 course.getDescription(),
                 course.getPrice(),
                 course.getLevel(),
@@ -42,7 +42,7 @@ public class CourseServiceImpl implements CourseService {
     public Course updateCourse(Long id,Course course){
         Course existingCourse=courseRepository.findById(id)
                 .orElseThrow(()->new RuntimeException("course not found"));
-        existingCourse.setTitle(course.getTitle());
+        existingCourse.setCourseName(course.getCourseName());
         existingCourse.setPrice(course.getPrice());
         existingCourse.setDescription(course.getDescription());
         existingCourse.setInstructorName(course.getInstructorName());
@@ -57,5 +57,6 @@ public class CourseServiceImpl implements CourseService {
         courseRepository.delete(existingCourse);
 
     }
+
 
 }

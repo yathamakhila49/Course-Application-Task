@@ -1,7 +1,7 @@
 package com.ca.courseapp.controller;
 
 
-import com.ca.courseapp.dto.GetCourseDto;
+import com.ca.courseapp.dto.CoursesDto;
 import com.ca.courseapp.entities.Course;
 import com.ca.courseapp.service.CourseService;
 import org.springframework.http.ResponseEntity;
@@ -22,9 +22,11 @@ public class CourseController {
         return  courseService.addCourse(course);
     }
     @GetMapping("/all")
-    public List<GetCourseDto> getAllCourses(){
+    public List<CoursesDto> getAllCourses(){
         return courseService.getAllCourses();
     }
+
+
     @GetMapping("/getCourse/{id}")
     public ResponseEntity<Course> getCourse(@PathVariable Long id){
         return courseService.getCourse(id).map(ResponseEntity::ok).orElseGet(()->ResponseEntity.notFound().build());
@@ -39,7 +41,4 @@ public class CourseController {
         courseService.deleteCourse(id);
         return ResponseEntity.ok("Course deleted Successfully");
    }
-
-
-
 }
